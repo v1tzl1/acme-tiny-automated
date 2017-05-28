@@ -1,5 +1,10 @@
 #!/bin/bash
 
+cd `dirname $0`
+
+cp config.sh.example config.sh;
+nano config.sh
+
 source config.sh
 
 ##### Create users
@@ -64,8 +69,8 @@ if [ ! -f ${ACME_TINY_PATH} ]; then echo "Acme-tiny path incorrect: ${ACME_TINY_
 
 cp config.sh ${DIR_CERTS}/
 
-cp bin/new_certs.sh ${DIR_BIN}/
-chown ${USER_GEN}:${USER_CRON} "${DIR_BIN}/new_certs.sh"
+cp bin/new_cert.sh ${DIR_BIN}/
+chown ${USER_GEN}:${USER_CRON} "${DIR_BIN}/new_cert.sh"
 
 cp bin/run-acme-tiny.sh ${DIR_BIN}/
 chown ${USER_ACME}:${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh"
