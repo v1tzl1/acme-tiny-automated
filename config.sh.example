@@ -6,7 +6,7 @@
 DIR_CERTS="/etc/ssl/letsencrypt"
 
 # Base folder for ACME challenges to be included by the webserver
-DIR_CHALLENGE="/srv/www/acme-challenges"
+DIR_CHALLENGE="/srv/www/acme-challenges/.well-known/acme-challenge"
 
 # Base folder for scripts
 DIR_BIN="/etc/ssl/letsencrypt/bin"
