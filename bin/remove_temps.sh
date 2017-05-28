@@ -6,9 +6,11 @@ cd "${DIR_CERTS}/tmp";
 
 for folder in "key" "csr" "crt" "pem" "logs"
 do
-    for file in "${folder}/*"
+    for file in ${folder}/*;
     do
-        echo "rm ${folder}/${file}"
-        rm "${folder}/${file}"
+        if [ -f "${folder}/${file}" ]; then
+            echo "rm ${folder}/${file}"
+            rm ${file}
+        fi
     done
 done
