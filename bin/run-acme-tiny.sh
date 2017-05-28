@@ -30,7 +30,7 @@ if [ ! -f ${ACME_TINY_PATH} ]; then
 fi
 
 # Obtain certificate
-( exec nohub python ${ACME_TINY_PATH} --account-key "${DIR_CERTS}/${ACCOUNT_KEY}" --account-email "${ACCOUNT_CONTACT}" --csr "${CSR_PATH}" --acme-dir "${DIR_CHALLENGE}" > ${CRT_PATH} )
+( exec nohup python ${ACME_TINY_PATH} --account-key "${DIR_CERTS}/${ACCOUNT_KEY}" --account-email "${ACCOUNT_CONTACT}" --csr "${CSR_PATH}" --acme-dir "${DIR_CHALLENGE}" > ${CRT_PATH} )
 
 if [ ! -f ${CRT_PATH} ]; then
     echo "Certificate ${CRT_PATH} was not created.";
@@ -38,7 +38,7 @@ if [ ! -f ${CRT_PATH} ]; then
 fi
 
 # Create PEM file with intermediate certificate
-CHAIN_PATH="${DIR_CERTS}/chain.pem"
+CHAIN_PATH="${DIR_CERTS}/tmp/crt/chain.pem"
 if [ ! -f ${CHAIN_PATH} ]; then
     wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > ${CHAIN_PATH};
 fi
