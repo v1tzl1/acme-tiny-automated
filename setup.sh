@@ -57,8 +57,8 @@ chmod 0755 ${DIR_CHALLENGE}
 ##### Create letsencrypt account
 cd ${DIR_CERTS}
 openssl genrsa 4096 > ${ACCOUNT_KEY}
-chown ${USER_GEN}:${USER_GEN} ${ACCOUNT_KEY}
-chmod 0600 ${ACCOUNT_KEY}
+chown ${USER_GEN}:${GROUP_COMMON} ${ACCOUNT_KEY}
+chmod 0640 ${ACCOUNT_KEY}
 
 ##### Copy files
 mkdir -p ${DIR_BIN}
