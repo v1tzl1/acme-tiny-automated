@@ -51,7 +51,7 @@ if [ ! -f ${KEY_PATH} ]; then
     echo "Key file not created.";
     exit 1;
 fi
-chmod 0600 ${KEY_PATH};
+chmod 0600 ${KEY_PATH} >> ${LOGFILE} 2>&1;
 
 # Create CSR
 echo "openssl req -config ${CONFIG} -key ${KEY_PATH} -new -out ${CSR_PATH}" >> ${LOGFILE}
@@ -60,7 +60,7 @@ if [ ! -f ${CSR_PATH} ]; then
     echo "CSR file ${CSR_PATH} not created.";
     exit 1;
 fi
-chmod 0644 ${CSR_PATH};
+chmod 0644 ${CSR_PATH} >> ${LOGFILE} 2>&1;
 
 # Run acme-tiny as user $USER_ACME
 (exec sudo -u ${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh" ${DOMAIN} ${SUFFIX} >> ${LOGFILE} 2>&1)
@@ -69,13 +69,13 @@ if [ ! -f ${CRT_PATH} ]; then
     echo "CRT file ${CRT_PATH} not created.";
     exit 1;
 fi
-chmod 0600 ${CRT_PATH};
+chmod 0600 ${CRT_PATH} >> ${LOGFILE} 2>&1;
 
 if [ ! -f ${PEM_PATH} ]; then
     echo "PEM file ${PEM_PATH} not created.";
     exit 1;
 fi
-chmod 0600 ${PEM_PATH};
+chmod 0600 ${PEM_PATH} >> ${LOGFILE} 2>&1;
 
 # Check that provate key and obtained certificate have the same modulus, i.e. they belong together
 if [[ `openssl x509 -noout -modulus -in ${CRT_PATH} | openssl md5` != `openssl rsa -noout -modulus -in ${KEY_PATH} | openssl md5` ]]; then
@@ -86,22 +86,22 @@ else
 fi
 
 # Move them to storage area and set file permission again (better be safe than sorry)
-mv ${KEY_PATH} ${KEY_STOR_PATH};
-chown ${USER_GEN}:${USER_GEN} ${KEY_STOR_PATH};
-chmod 0600 ${KEY_STOR_PATH};
+mv ${KEY_PATH} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+chown ${USER_GEN}:${USER_GEN} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+chmod 0600 ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
 
-mv ${CSR_PATH} ${CSR_STOR_PATH};
-mv ${CRT_PATH} ${CRT_STOR_PATH};
-mv ${PEM_PATH} ${PEM_STOR_PATH};
+mv ${CSR_PATH} ${CSR_STOR_PATH} >> ${LOGFILE} 2>&1;
+mv ${CRT_PATH} ${CRT_STOR_PATH} >> ${LOGFILE} 2>&1;
+mv ${PEM_PATH} ${PEM_STOR_PATH} >> ${LOGFILE} 2>&1;
 
 # Update symlinks
-cd "${DIR_CERTS}/live"
+cd "${DIR_CERTS}/live" >> ${LOGFILE} 2>&1
 
 for ext in "key" "crt" "csr" "pem"
 do
     if [ -e "${DOMAIN}.${ext}" ]; then
         if [ -L "${DOMAIN}.${ext}" ]; then
-            echo 'rm "${DOMAIN}.${ext}"' >> ${LOGFILE}
+            echo 'rm "${DOMAIN}.${ext}"' >> ${LOGFILE} 2>&1
             rm "${DOMAIN}.${ext}";
         else
             echo "File ${DIR_CERTS}/live/${DOMAIN}.${ext} exists and is NOT a symlink. Abort to make sure I am not deleting files.";
@@ -110,12 +110,12 @@ do
         fi
     fi
     echo 'ln -s "../storage/${YEAR}/${DOMAIN}-${SUFFIX}.${ext}" "${DOMAIN}.${ext}"' >> ${LOGFILE}
-    ln -s "../storage/${YEAR}/${DOMAIN}-${SUFFIX}.${ext}" "${DOMAIN}.${ext}";
+    ln -s "../storage/${YEAR}/${DOMAIN}-${SUFFIX}.${ext}" "${DOMAIN}.${ext}" >> ${LOGFILE} 2>&1;
 done
 
 # Update services
 echo "Updating services" >> ${LOGFILE}
-(exec nohup sudo "${DIR_BIN}/services-update.sh")
+(exec nohup sudo "${DIR_BIN}/services-update.sh" >> ${LOGFILE} 2>&1)
 echo "Services updated" >> ${LOGFILE}
 
 exit 0

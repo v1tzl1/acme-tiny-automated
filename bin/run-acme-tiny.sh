@@ -32,7 +32,7 @@ if [ ! -f ${ACME_TINY_PATH} ]; then
 fi
 
 # Obtain certificate
-echo "nohup python ${ACME_TINY_PATH} --account-key ${DIR_CERTS}/${ACCOUNT_KEY} --account-email ${ACCOUNT_CONTACT} --csr ${CSR_PATH} --acme-dir ${DIR_CHALLENGE} --quiet" >>${LOGFILE}
+echo "nohup python ${ACME_TINY_PATH} --account-key ${DIR_CERTS}/${ACCOUNT_KEY} --account-email ${ACCOUNT_CONTACT} --csr ${CSR_PATH} --acme-dir ${DIR_CHALLENGE} --quiet" >> ${LOGFILE} 2>&1
 
 ( exec nohup python ${ACME_TINY_PATH} --account-key "${DIR_CERTS}/${ACCOUNT_KEY}" --account-email "${ACCOUNT_CONTACT}" --csr "${CSR_PATH}" --acme-dir "${DIR_CHALLENGE}" --quiet > ${CRT_PATH} 2>>${LOGFILE})
 
@@ -44,19 +44,19 @@ fi
 # Create PEM file with intermediate certificate
 CHAIN_PATH="${DIR_CERTS}/tmp/crt/chain.pem"
 if [ ! -f ${CHAIN_PATH} ]; then
-    wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > ${CHAIN_PATH};
+    wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > ${CHAIN_PATH} 2>${LOGFILE};
 fi
 
 if [ ! -f ${CHAIN_PATH} ]; then
     echo "Cannot find intermediate certificate and download failed.";
     exit 1;
 fi
-cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH}
+cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH} >> ${LOGFILE} 2>&1
 
 echo "Changing permissions of generated CRT and PEM files" >> ${LOGFILE}
-chown ${USER_ACME}:${GROUP_COMMON} ${CRT_PATH}  >> ${LOGFILE} 2>&1;
-chown ${USER_ACME}:${GROUP_COMMON} ${PEM_PATH}  >> ${LOGFILE} 2>&1;
-chmod 0660 ${CRT_PATH}  >> ${LOGFILE} 2>&1;
-chmod 0660 ${PEM_PATH}  >> ${LOGFILE} 2>&1;
+chown ${USER_ACME}:${GROUP_COMMON} ${CRT_PATH} >> ${LOGFILE} 2>&1;
+chown ${USER_ACME}:${GROUP_COMMON} ${PEM_PATH} >> ${LOGFILE} 2>&1;
+chmod 0660 ${CRT_PATH} >> ${LOGFILE} 2>&1;
+chmod 0660 ${PEM_PATH} >> ${LOGFILE} 2>&1;
 
 echo "returning from run-acme-tiny.sh" >> ${LOGFILE}
