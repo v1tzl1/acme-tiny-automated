@@ -15,6 +15,8 @@ fi
 DOMAIN=$1
 SUFFIX=$2
 
+LOGFILE="${DIR_CERTS}/tmp/logs/${DOMAIN}-${SUFFIX}.log"
+
 CSR_PATH="${DIR_CERTS}/tmp/csr/${DOMAIN}-${SUFFIX}.csr"
 CRT_PATH="${DIR_CERTS}/tmp/crt/${DOMAIN}-${SUFFIX}.crt"
 PEM_PATH="${DIR_CERTS}/tmp/crt/${DOMAIN}-${SUFFIX}.pem"
@@ -30,7 +32,9 @@ if [ ! -f ${ACME_TINY_PATH} ]; then
 fi
 
 # Obtain certificate
-( exec nohup python ${ACME_TINY_PATH} --account-key "${DIR_CERTS}/${ACCOUNT_KEY}" --account-email "${ACCOUNT_CONTACT}" --csr "${CSR_PATH}" --acme-dir "${DIR_CHALLENGE}" > ${CRT_PATH} )
+echo "nohup python ${ACME_TINY_PATH} --account-key ${DIR_CERTS}/${ACCOUNT_KEY} --account-email ${ACCOUNT_CONTACT} --csr ${CSR_PATH} --acme-dir ${DIR_CHALLENGE} --quiet" >>${LOGFILE}
+
+( exec nohup python ${ACME_TINY_PATH} --account-key "${DIR_CERTS}/${ACCOUNT_KEY}" --account-email "${ACCOUNT_CONTACT}" --csr "${CSR_PATH}" --acme-dir "${DIR_CHALLENGE}" --quiet > ${CRT_PATH} 2>>${LOGFILE})
 
 if [ ! -f ${CRT_PATH} ]; then
     echo "Certificate ${CRT_PATH} was not created.";
@@ -48,3 +52,7 @@ if [ ! -f ${CHAIN_PATH} ]; then
     exit 1;
 fi
 cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH}
+
+# Change file ownership back to USER_GEN
+chown ${USER_GEN}:${GROUP_COMMON} ${CSR_PATH};
+chown ${USER_GEN}:${GROUP_COMMON} ${PEM_PATH};

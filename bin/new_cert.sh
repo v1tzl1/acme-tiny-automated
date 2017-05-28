@@ -38,14 +38,9 @@ CSR_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.csr"
 CRT_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.crt"
 PEM_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.pem"
 
-LOGFILE="${DIR_CERTS}/tmp/logs/${YEAR}/${DOMAIN}-${SUFFIX}.log"
-if [ ! -d "${DIR_CERTS}/tmp/logs/${YEAR}" ]; then
-    mkdir "${DIR_CERTS}/tmp/logs/${YEAR}";
-    chown ${USER_GEN}:${GROUP_COMMON} "${DIR_CERTS}/tmp/logs/${YEAR}"
-    chmod 0770 "${DIR_CERTS}/tmp/logs/${YEAR}";
-    
-    echo "Log dir ${DIR_CERTS}/tmp/logs/${YEAR} created." >> ${LOGFILE}
-fi
+LOGFILE="${DIR_CERTS}/tmp/logs/${DOMAIN}-${SUFFIX}.log"
+chown ${USER_GEN}:${GROUP_COMMON} ${LOGFILE};
+chmod 0660 ${LOGFILE};
 
 # Create private key
 echo "openssl genrsa 4096 > ${KEY_PATH}" >> ${LOGFILE}
