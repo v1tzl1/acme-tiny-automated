@@ -115,7 +115,7 @@ done
 
 # Update services
 echo "Updating services" >> ${LOGFILE}
-(exec sudo nohup "${DIR_BIN}/services-update.sh")
+(exec nohup sudo "${DIR_BIN}/services-update.sh")
 echo "Services updated" >> ${LOGFILE}
 
 exit 0

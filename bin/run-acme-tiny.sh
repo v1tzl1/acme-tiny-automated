@@ -54,9 +54,9 @@ fi
 cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH}
 
 echo "Changing permissions of generated CRT and PEM files" >> ${LOGFILE}
-chown ${USER_ACME}:${GROUP_COMMON} ${CRT_PATH};
-chown ${USER_ACME}:${GROUP_COMMON} ${PEM_PATH};
-chmod 0660 ${CRT_PATH};
-chmod 0660 ${PEM_PATH};
+chown ${USER_ACME}:${GROUP_COMMON} ${CRT_PATH}  >> ${LOGFILE} 2>&1;
+chown ${USER_ACME}:${GROUP_COMMON} ${PEM_PATH}  >> ${LOGFILE} 2>&1;
+chmod 0660 ${CRT_PATH}  >> ${LOGFILE} 2>&1;
+chmod 0660 ${PEM_PATH}  >> ${LOGFILE} 2>&1;
 
 echo "returning from run-acme-tiny.sh" >> ${LOGFILE}
