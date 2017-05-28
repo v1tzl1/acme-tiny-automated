@@ -41,7 +41,7 @@ PEM_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.pem"
 
 
 # Create private key
-openssl genrsa -config ${CONFIG} > ${KEY_PATH}
+openssl genrsa 4096 > ${KEY_PATH}
 if [ ! -f ${KEY_PATH} ]; then
     echo "Key file not created.";
     exit 1;
