@@ -93,6 +93,10 @@ cp bin/services-update.sh ${DIR_BIN}/
 chown root:${USER_GEN} "${DIR_BIN}/services-update.sh"
 chmod 0744 "${DIR_BIN}/services-update.sh"
 
+cp bin/remove_temps.sh ${DIR_BIN}/
+chown root:root "${DIR_BIN}/remove_temps.sh"
+chmod 0744 "${DIR_BIN}/remove_temps.sh"
+
 echo "Defaults:${USERR_CRON} !requiretty" > /etc/sudoers.d/letsencrypt-acme-tiny-automated
 echo "Defaults:${USERR_GEN} !requiretty" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
 echo "${USER_CRON} ALL=(${USER_GEN}) NOPASSWD: ${DIR_BIN}/new_certs.sh" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
