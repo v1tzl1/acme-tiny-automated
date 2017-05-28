@@ -39,6 +39,8 @@ CRT_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.crt"
 PEM_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.pem"
 
 LOGFILE="${DIR_CERTS}/tmp/logs/${DOMAIN}-${SUFFIX}.log"
+
+touch ${LOGFILE};
 chown ${USER_GEN}:${GROUP_COMMON} ${LOGFILE};
 chmod 0660 ${LOGFILE};
 
