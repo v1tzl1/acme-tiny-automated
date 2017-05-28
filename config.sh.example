@@ -1,0 +1,39 @@
+#!/bin/bash
+
+### Paths
+
+# Base folder for certificate files (live/storage/configs/tmp)
+DIR_CERTS="/etc/ssl/letsencrypt"
+
+# Base folder for ACME challenges to be included by the webserver
+DIR_CHALLENGE="/srv/www/acme-challenges"
+
+# Base folder for scripts
+DIR_BIN="/etc/ssl/letsencrypt/bin"
+
+# Path to acme-tiny python file
+ACME_TINY_PATH="${DIR_CERTS}/include/acme-tiny/acme_tiny.py"
+
+
+### User accounts and groups
+
+# User to run the cert update script with (needs no specific permissions)
+USER_CRON="le-cron"
+
+# User to generate the private keys (has full access to keys)
+USER_GEN="le-gen"
+
+# User to run acme-tiny. Has access to private account key and CSR/CRT paths
+USER_ACME="le-acme-tiny"
+
+# Common user group for USER_GEN and USER_ACME user for folders where both users need read or write permissions
+GROUP_COMMON="le-common"
+
+
+### Lets encrype account
+
+# Name of the letsencrypt account key in DIR_CERTS/
+ACCOUNT_KEY="account.key"
+
+# Email address to use with account
+ACCOUNT_CONTACT="changeme@example.com"

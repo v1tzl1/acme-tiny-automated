@@ -1,0 +1,34 @@
+[ genrsa ]
+# length of private key
+default_bits       = 4096
+
+[ req ]
+default_md         = sha512
+prompt             = no
+encrypt_key        = no
+
+# base request
+distinguished_name = req_distinguished_name
+
+# Extension required if multiple domain names are required
+req_extensions     = v3_req
+
+# Certificate fields with your information
+[ req_distinguished_name ]
+countryName            = "DE"                     # Country         C=
+stateOrProvinceName    = "MyState"                # State/Province  ST=
+localityName           = "MyTown"                 # City/Locality   L=
+postalCode             = "12345"                  # Postal code     L/postalcode=
+streetAddress          = "MyStreet 42"            # Street/Address  L/street=
+organizationName       = "MyOrg"                  # Organization    O=
+organizationalUnitName = "Awesome Department"     # Og Unit         OU=
+commonName             = "example.com"            # Domain name     CN=
+emailAddress           = "webmaster@example.com"  # Contact Email   CN/emailAddress=
+
+[ v3_req ]
+# The subject alternative name extension allows various literal values to be 
+# included in the configuration file
+# http://www.openssl.org/docs/apps/x509v3_config.html
+#
+# multidomain certificate
+subjectAltName  = DNS:www.example.com,DNS:www2.example.com
