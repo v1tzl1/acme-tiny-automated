@@ -57,7 +57,7 @@ fi
 chmod 0644 ${CSR_PATH};
 
 # Run acme-tiny as user $USER_ACME
-(exec sudo -u ${USER_ACME} run-acme-tiny.sh ${DOMAIN} ${SUFFIX})
+(exec sudo -u ${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh" ${DOMAIN} ${SUFFIX})
 
 if [ ! -f ${CRT_PATH} ]; then
     echo "CRT file ${CRT_PATH} not created.";
