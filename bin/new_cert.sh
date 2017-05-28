@@ -38,10 +38,11 @@ CSR_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.csr"
 CRT_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.crt"
 PEM_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.pem"
 
-
+LOGFILE="${DIR_CERTS}/tmp/logs/${YEAR}/${DOMAIN}-${SUFFIX}.log"
 
 # Create private key
-openssl genrsa 4096 > ${KEY_PATH}
+echo "openssl genrsa 4096 > ${KEY_PATH}" >> ${LOGFILE}
+openssl genrsa 4096 > ${KEY_PATH} 2>> ${LOGFILE}
 if [ ! -f ${KEY_PATH} ]; then
     echo "Key file not created.";
     exit 1;
@@ -49,7 +50,8 @@ fi
 chmod 0600 ${KEY_PATH};
 
 # Create CSR
-openssl req -config ${CONFIG} -key ${KEY_PATH} -new -out ${CSR_PATH}
+echo "openssl req -config ${CONFIG} -key ${KEY_PATH} -new -out ${CSR_PATH}" >> ${LOGFILE}
+openssl req -config ${CONFIG} -key ${KEY_PATH} -new -out ${CSR_PATH} 2>> ${LOGFILE}
 if [ ! -f ${CSR_PATH} ]; then
     echo "CSR file ${CSR_PATH} not created.";
     exit 1;
@@ -57,7 +59,7 @@ fi
 chmod 0644 ${CSR_PATH};
 
 # Run acme-tiny as user $USER_ACME
-(exec sudo -u ${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh" ${DOMAIN} ${SUFFIX})
+(exec sudo -u ${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh" ${DOMAIN} ${SUFFIX} >> ${LOGFILE} 2>&1)
 
 if [ ! -f ${CRT_PATH} ]; then
     echo "CRT file ${CRT_PATH} not created.";
@@ -75,6 +77,8 @@ chmod 0600 ${PEM_PATH};
 if [[ `openssl x509 -noout -modulus -in ${CRT_PATH} | openssl md5` != `openssl rsa -noout -modulus -in ${KEY_PATH} | openssl md5` ]]; then
     echo "Private key and certificate do not belong together (modulus mismatch).";
     exit 1;
+else
+    echo "Moduli of ${CRT_PATH} and ${KEY_PATH} agree" >> ${LOGFILE}
 fi
 
 # Move them to storage area and set file permission again (better be safe than sorry)
@@ -93,16 +97,21 @@ for ext in "key" "crt" "csr" "pem"
 do
     if [ -e "${DOMAIN}.${ext}" ]; then
         if [ -L "${DOMAIN}.${ext}" ]; then
+            echo 'rm "${DOMAIN}.${ext}"' >> ${LOGFILE}
             rm "${DOMAIN}.${ext}";
         else
             echo "File ${DIR_CERTS}/live/${DOMAIN}.${ext} exists and is NOT a symlink. Abort to make sure I am not deleting files.";
+            echo "File ${DIR_CERTS}/live/${DOMAIN}.${ext} exists and is NOT a symlink. Abort to make sure I am not deleting files." >> ${LOGFILE};
             exit 1;
         fi
     fi
+    echo 'ln -s "../storage/${YEAR}/${DOMAIN}-${SUFFIX}.${ext}" "${DOMAIN}.${ext}"' >> ${LOGFILE}
     ln -s "../storage/${YEAR}/${DOMAIN}-${SUFFIX}.${ext}" "${DOMAIN}.${ext}";
 done
 
 # Update services
+echo "Updating services" >> >> ${LOGFILE}
 (exec sudo nohup "${DIR_BIN}/services-update.sh")
+echo "Services updated" >> >> ${LOGFILE}
 
 exit 0

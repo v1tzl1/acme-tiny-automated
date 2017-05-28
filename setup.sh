@@ -46,6 +46,10 @@ mkdir crt
 chown ${USER_GEN}:${GROUP_COMMON} crt
 chmod 0770 crt
 
+mkdir logs
+chown ${USER_GEN}:${GROUP_COMMON} logs
+chmod 0770 crt
+
 mkdir ${DIR_CHALLENGE}
 chown ${USER_ACME}:${USER_ACME} ${DIR_CHALLENGE}
 chmod 0755 ${DIR_CHALLENGE}
