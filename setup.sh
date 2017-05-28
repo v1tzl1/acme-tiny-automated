@@ -69,6 +69,9 @@ if [ ! -f ${ACME_TINY_PATH} ]; then echo "Acme-tiny path incorrect: ${ACME_TINY_
 
 cp config.sh ${DIR_CERTS}/
 
+cp bin/update-certs.sh ${DIR_BIN}/
+chown ${USER_CRON}:${USER_CRON} "${DIR_BIN}/update-certs.sh"
+
 cp bin/new_cert.sh ${DIR_BIN}/
 chown ${USER_GEN}:${USER_CRON} "${DIR_BIN}/new_cert.sh"
 
