@@ -8,7 +8,7 @@ for folder in "key" "csr" "crt" "pem" "logs"
 do
     for file in ${folder}/*
     do
-        echo 'rm "${folder}/${file}'
-        rm "${folder}/${file}
+        echo 'rm "${folder}/${file}"'
+        rm "${folder}/${file}"
     done
 done
