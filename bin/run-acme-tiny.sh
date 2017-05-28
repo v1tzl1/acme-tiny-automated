@@ -15,9 +15,9 @@ fi
 DOMAIN=$1
 SUFFIX=$2
 
-CSR_PATH="${DIR_CERTS}/csr/${DOMAIN}-${SUFFIX}.csr"
-CRT_PATH="${DIR_CERTS}/crt/${DOMAIN}-${SUFFIX}.crt"
-PEM_PATH="${DIR_CERTS}/crt/${DOMAIN}-${SUFFIX}.pem"
+CSR_PATH="${DIR_CERTS}/tmp/csr/${DOMAIN}-${SUFFIX}.csr"
+CRT_PATH="${DIR_CERTS}/tmp/crt/${DOMAIN}-${SUFFIX}.crt"
+PEM_PATH="${DIR_CERTS}/tmp/crt/${DOMAIN}-${SUFFIX}.pem"
 
 if [ ! -f ${CSR_PATH} ]; then
     echo "Could not find CSR file ${CSR_PATH}";

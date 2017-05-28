@@ -23,10 +23,10 @@ fi
 SUFFIX=`date "+%Y-%m-%d-%H-%M"`
 YEAR=`date "+%Y"`
 
-KEY_PATH="${DIR_CERTS}/key/${DOMAIN}-${SUFFIX}.key"
-CSR_PATH="${DIR_CERTS}/csr/${DOMAIN}-${SUFFIX}.csr"
-CRT_PATH="${DIR_CERTS}/crt/${DOMAIN}-${SUFFIX}.crt"
-PEM_PATH="${DIR_CERTS}/crt/${DOMAIN}-${SUFFIX}.pem"
+KEY_PATH="${DIR_CERTS}/tmp/key/${DOMAIN}-${SUFFIX}.key"
+CSR_PATH="${DIR_CERTS}/tmp/csr/${DOMAIN}-${SUFFIX}.csr"
+CRT_PATH="${DIR_CERTS}/tmp/crt/${DOMAIN}-${SUFFIX}.crt"
+PEM_PATH="${DIR_CERTS}/tmp/crt/${DOMAIN}-${SUFFIX}.pem"
 
 if [ ! -d "${DIR_CERTS}/storage/${YEAR}" ]; then
     mkdir "${DIR_CERTS}/storage/${YEAR}";

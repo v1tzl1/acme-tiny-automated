@@ -69,14 +69,21 @@ if [ ! -f ${ACME_TINY_PATH} ]; then echo "Acme-tiny path incorrect: ${ACME_TINY_
 
 cp config.sh ${DIR_CERTS}/
 
+cp example.cnf "${DIR_CERTS}/configs/example.cnf_"
+chown root:${USER_GEN} "${DIR_CERTS}/configs/example.cnf_"
+chmod 0640 "${DIR_CERTS}/configs/example.cnf_"
+
 cp bin/update-certs.sh ${DIR_BIN}/
 chown ${USER_CRON}:${USER_CRON} "${DIR_BIN}/update-certs.sh"
+chmod 0744 "${DIR_BIN}/update-certs.sh"
 
 cp bin/new_cert.sh ${DIR_BIN}/
 chown ${USER_GEN}:${USER_CRON} "${DIR_BIN}/new_cert.sh"
+chmod 0744 "${DIR_BIN}/new_cert.sh"
 
 cp bin/run-acme-tiny.sh ${DIR_BIN}/
 chown ${USER_ACME}:${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh"
+chmod 0744 "${DIR_BIN}/run-acme-tiny.sh"
 
 cp bin/services-update.sh ${DIR_BIN}/
 chown root:${USER_GEN} "${DIR_BIN}/services-update.sh"
