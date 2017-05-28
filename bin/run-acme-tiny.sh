@@ -54,5 +54,10 @@ fi
 cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH}
 
 # Change file ownership back to USER_GEN
-chown ${USER_GEN}:${GROUP_COMMON} ${CSR_PATH};
-chown ${USER_GEN}:${GROUP_COMMON} ${PEM_PATH};
+echo "Changing permissions of generated CRT and PEM files" >> ${LOGFILE}
+chown ${USER_ACME}:${GROUP_COMMON} ${CSR_PATH};
+chown ${USER_ACME}:${GROUP_COMMON} ${PEM_PATH};
+chmod 0664 ${CRT_PATH};
+chmod 0664 ${PEM_PATH};
+
+echo "returning from run-acme-tiny.sh" >> ${LOGFILE}
