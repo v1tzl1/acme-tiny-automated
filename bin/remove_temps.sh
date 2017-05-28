@@ -8,8 +8,8 @@ for folder in "key" "csr" "crt" "pem" "logs"
 do
     for file in ${folder}/*;
     do
-        if [ -f "${folder}/${file}" ]; then
-            echo "rm ${folder}/${file}"
+        if [ -f ${file} ]; then
+            echo "rm ${file}"
             rm ${file}
         fi
     done
