@@ -41,7 +41,6 @@ PEM_STOR_PATH="${DIR_CERTS}/storage/${YEAR}/${DOMAIN}-${SUFFIX}.pem"
 
 
 # Create private key
-cd ${DIR_CERTS}/key
 openssl genrsa -config ${CONFIG} > ${KEY_PATH}
 if [ ! -f ${KEY_PATH} ]; then
     echo "Key file not created.";
@@ -50,7 +49,6 @@ fi
 chmod 0600 ${KEY_PATH};
 
 # Create CSR
-cd ${DIR_CERTS}/csr
 openssl req -config ${CONFIG} -key ${KEY_PATH} -new -out ${CSR_PATH}
 if [ ! -f ${CSR_PATH} ]; then
     echo "CSR file ${CSR_PATH} not created.";
