@@ -51,7 +51,7 @@ if [ ! -f ${CHAIN_PATH} ]; then
     echo "Cannot find intermediate certificate and download failed.";
     exit 1;
 fi
-cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH} >> ${LOGFILE} 2>&1
+cat ${CSR_PATH} ${CHAIN_PATH} > ${PEM_PATH} 2>&1
 
 echo "Changing permissions of generated CRT and PEM files" >> ${LOGFILE}
 chown ${USER_ACME}:${GROUP_COMMON} ${CRT_PATH} >> ${LOGFILE} 2>&1;

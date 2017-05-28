@@ -69,13 +69,11 @@ if [ ! -f ${CRT_PATH} ]; then
     echo "CRT file ${CRT_PATH} not created.";
     exit 1;
 fi
-chmod 0600 ${CRT_PATH} >> ${LOGFILE} 2>&1;
 
 if [ ! -f ${PEM_PATH} ]; then
     echo "PEM file ${PEM_PATH} not created.";
     exit 1;
 fi
-chmod 0600 ${PEM_PATH} >> ${LOGFILE} 2>&1;
 
 # Check that provate key and obtained certificate have the same modulus, i.e. they belong together
 if [[ `openssl x509 -noout -modulus -in ${CRT_PATH} | openssl md5` != `openssl rsa -noout -modulus -in ${KEY_PATH} | openssl md5` ]]; then
