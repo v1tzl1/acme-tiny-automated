@@ -9,7 +9,7 @@ source config.sh
 
 ##### Create users
 groupadd -r ${GROUP_COMMON};
-useradd --shell /bin/false --system ${USER_CRON};
+useradd --shell /bin/false --system -U -G${GROUP_COMMON} ${USER_CRON};
 useradd --shell /bin/false --system -U -G${GROUP_COMMON} ${USER_GEN};
 useradd --shell /bin/false --system -U -G${GROUP_COMMON} ${USER_ACME};
 
@@ -18,12 +18,12 @@ mkdir ${DIR_CERTS}
 cd ${DIR_CERTS}
 
 mkdir live
-chown ${USER_GEN}:${USER_GEN} live
-chmod 0750 live
+chown ${USER_GEN}:${GROUP_COMMON} live
+chmod 0755 live
 
 mkdir storage
-chown ${USER_GEN}:${USER_GEN} storage
-chmod 0750 storage
+chown ${USER_GEN}:${GROUP_COMMON} storage
+chmod 0755 storage
 
 mkdir configs
 chown root:${USER_GEN} configs

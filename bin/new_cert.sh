@@ -62,6 +62,14 @@ if [ ! -f ${CSR_PATH} ]; then
 fi
 chmod 0644 ${CSR_PATH} >> ${LOGFILE} 2>&1;
 
+# Create CRT and PEM files, so the have the right ownership
+touch ${CRT_PATH}
+touch ${PEM_PATH}
+chown ${USER_GEN}:${GROUP_COMMON} ${CRT_PATH} >> ${LOGFILE} 2>&1;
+chown ${USER_GEN}:${GROUP_COMMON} ${PEM_PATH} >> ${LOGFILE} 2>&1;
+chmod 0664 ${CRT_PATH} >> ${LOGFILE} 2>&1;
+chmod 0664 ${PEM_PATH} >> ${LOGFILE} 2>&1;
+
 # Run acme-tiny as user $USER_ACME
 (exec sudo -u ${USER_ACME} "${DIR_BIN}/run-acme-tiny.sh" ${DOMAIN} ${SUFFIX} >> ${LOGFILE} 2>&1)
 
