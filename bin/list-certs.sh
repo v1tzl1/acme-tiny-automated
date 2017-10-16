@@ -2,10 +2,10 @@
 
 source `dirname $0`/../config.sh
 
-if [[ $USER != ${USER_CRON} ]]; then
-    echo "This script is only supposed to be run by the user ${USER_CRON}";
-    exit 1;
-fi
+#if [[ $USER != ${USER_CRON} ]]; then
+#    echo "This script is only supposed to be run by the user ${USER_CRON}";
+#    exit 1;
+#fi
 
 cd "${DIR_CERTS}/configs"
 for config in *.cnf
@@ -17,7 +17,7 @@ do
 
 	openssl x509 -checkend 0 -noout -in "../live/${DOMAIN}.crt";
 	VALID_NOW="$?"
-	openssl x509 -checkend 86400 -noout -in "../live/${DOMAIN}.crt";
+	openssl x509 -checkend $((21*24*3600)) -noout -in "../live/${DOMAIN}.crt";
 	VALID_FUTURE="$?"
 
 	if [ ${VALID_FUTURE} -eq 0 ]; then
