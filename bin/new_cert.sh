@@ -91,14 +91,24 @@ else
     echo "Moduli of ${CRT_PATH} and ${KEY_PATH} agree" >> ${LOGFILE}
 fi
 
-# Move them to storage area and set file permission again (better be safe than sorry)
+### Move them to storage area and set file permission
+# Key
 mv ${KEY_PATH} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
-chown ${USER_GEN}:${USER_GEN} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
-chmod 0600 ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
-
+chown ${USER_GEN}:${GROUP_KEYS} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+chmod 0640 ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+# CSR
 mv ${CSR_PATH} ${CSR_STOR_PATH} >> ${LOGFILE} 2>&1;
+chown ${USER_GEN}:${GROUP_KEYS} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+chmod 0640 ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+# CRT
 mv ${CRT_PATH} ${CRT_STOR_PATH} >> ${LOGFILE} 2>&1;
+chown ${USER_GEN}:${GROUP_KEYS} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+chmod 0644 ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+# PEM
 mv ${PEM_PATH} ${PEM_STOR_PATH} >> ${LOGFILE} 2>&1;
+chown ${USER_GEN}:${GROUP_KEYS} ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+chmod 0644 ${KEY_STOR_PATH} >> ${LOGFILE} 2>&1;
+
 
 # Update symlinks
 cd "${DIR_CERTS}/live" >> ${LOGFILE} 2>&1
