@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config.sh
+source `dirname $0`/../config.sh
 
 if [[ $USER != ${USER_GEN} ]]; then
     echo "This script is only supposed to be run by the user ${USER_GEN}";
