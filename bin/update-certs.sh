@@ -19,8 +19,9 @@ do
 	if [ ${EXPIRE_SOON} -eq 1 ]; then
 		echo "Renewing ${DOMAIN}"
 		echo "ECHO: sudo -u ${USER_GEN} ${DIR_CERTS}/bin/new_cert.sh ${DOMAIN}"
-	else
-		echo "Domain ${DOMAIN} is still valid"
+		sudo -u ${USER_GEN} "${DIR_CERTS}/bin/new_cert.sh" ${DOMAIN};
+	#else
+	#	echo "Domain ${DOMAIN} is still valid"
 	fi
 
 done
