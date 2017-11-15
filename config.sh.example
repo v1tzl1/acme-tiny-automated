@@ -29,6 +29,9 @@ USER_ACME="le-acme-tiny"
 # Common user group for USER_GEN and USER_ACME user for folders where both users need read or write permissions
 GROUP_COMMON="le-common"
 
+# User group that will own the generated keys and certificates
+GROUP_KEYS="le-keys"
+
 
 ### Lets encrype account
 
