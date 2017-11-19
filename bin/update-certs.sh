@@ -12,8 +12,10 @@ for config in *.cnf
 do
 	DOMAIN="${config%.cnf}"
 
-	# Is domain still valid in the next 20 days
-	openssl x509 -checkend $((20*24*3600)) -noout -in "../live/${DOMAIN}.crt";
+	# Is domain still valid in the next 22 days? (LE sends a reminder mail if
+	# remaining days is below 20, so we get a warning if the cron job failed
+	# twice
+	openssl x509 -checkend $((22*24*3600)) -noout -in "../live/${DOMAIN}.crt";
 	EXPIRE_SOON="$?"
 
 	if [ ${EXPIRE_SOON} -eq 1 ]; then
