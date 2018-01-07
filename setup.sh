@@ -110,7 +110,7 @@ chmod +x /etc/cron.daily/letsencrypt-acme-tiny-automated
 
 echo "Defaults:${USER_CRON} !requiretty" > /etc/sudoers.d/letsencrypt-acme-tiny-automated
 echo "Defaults:${USER_GEN} !requiretty" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
-echo "${USER_CRON} ALL=(${USER_GEN}) NOPASSWD: ${DIR_BIN}/new_certs.sh" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
+echo "${USER_CRON} ALL=(${USER_GEN}) NOPASSWD: ${DIR_BIN}/new_cert.sh" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
 echo "${USER_GEN} ALL=(root) NOPASSWD: ${DIR_BIN}/services-update.sh" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
 echo "${USER_CRON} ALL=(root) NOPASSWD: ${DIR_BIN}/update-certs.sh" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
 echo "${USER_GEN} ALL=(${USER_ACME}) NOPASSWD: ${DIR_BIN}/run-acme-tiny.sh" >> /etc/sudoers.d/letsencrypt-acme-tiny-automated
